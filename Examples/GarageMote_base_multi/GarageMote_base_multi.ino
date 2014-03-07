@@ -21,14 +21,15 @@
 
 #define NODEID             1       //ID of this gateway node
 #define GARAGENODEIDS[]    {2,3,4} //List your GarageMote Node IDs as an array
-#define NETWORKID          154
+#define NETWORKID          100     //Network ID to communicate across. Must be same for all nodes
 //Match frequency to the hardware version of the radio on your Moteino (uncomment one):
-#define FREQUENCY   RF69_433MHZ
+//#define FREQUENCY   RF69_433MHZ
 //#define FREQUENCY   RF69_868MHZ
-//#define FREQUENCY     RF69_915MHZ
+#define FREQUENCY     RF69_915MHZ
 
 #define ENCRYPTKEY    "sampleEncryptKey" //has to be same 16 characters/bytes on all nodes, not more not less!
-#define IS_RFM69HW  //uncomment only for RFM69HW! Leave out if you have RFM69W!
+//#define IS_RFM69HW  //uncomment only for RFM69HW! Leave out if you have RFM69W!
+
 #define LED           9
 #define SERIAL_BAUD   115200
 #define ACK_TIME      30  // # of ms to wait for an ack
