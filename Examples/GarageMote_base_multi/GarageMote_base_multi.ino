@@ -1,6 +1,8 @@
 // **********************************************************************************************************
 // GarageMote garage door controller base receiver sketch that works with Moteinos equipped with HopeRF RFM69W/RFM69HW
 // This receive can be configured to receive garage door status from multiple GarageMote nodes
+// Input can be crafted to include node id - i.e. 'GRGSTS_10' will get status from garage node 10.
+//
 // Can be adapted to use Moteinos using RFM12B
 // This is the sketch for the base, not the controller itself, and meant as another example on how to use a
 // Moteino as a gateway/base/receiver
@@ -20,14 +22,15 @@
 //*****************************************************************************************************************************
 
 #define NODEID             1       //ID of this gateway node
-#define GARAGENODEIDS[]    {2,3,4} //List your GarageMote Node IDs as an array
-#define NETWORKID          100     //Network ID to communicate across. Must be same for all nodes
+#define NETWORKID          100
+//No need to specify the node. Specify any node in the input command - GRGSTS_10 would receive the status from garage node 10
+
+#define ENCRYPTKEY    "sampleEncryptKey" //has to be same 16 characters/bytes on all nodes, not more not less!
+
 //Match frequency to the hardware version of the radio on your Moteino (uncomment one):
 //#define FREQUENCY   RF69_433MHZ
 //#define FREQUENCY   RF69_868MHZ
 #define FREQUENCY     RF69_915MHZ
-
-#define ENCRYPTKEY    "sampleEncryptKey" //has to be same 16 characters/bytes on all nodes, not more not less!
 //#define IS_RFM69HW  //uncomment only for RFM69HW! Leave out if you have RFM69W!
 
 #define LED           9
@@ -63,6 +66,8 @@ int  nodeId;
 void loop() {
   //process any serial input
   inputLen = readSerialLine(input, &nodeId);
+  
+  Serial.print(GARAGENODE
       
   if (inputLen >= 6)
   {
@@ -83,9 +88,9 @@ void loop() {
     if (input[0]=='G' && input[1]=='R' && input[2]=='G' && input[3]=='S' && input[4]=='T' && input[5]=='S')
     {
       Serial.print("STS ... ");
-      if (radio.sendWithRetry(nodeId, "STS", 3))
+      if (radio.sendWithRetry(node_id, "STS", 3))
         Serial.println("ok ... ");
-      else Serial.println("nothing ... ");
+      else Serial.println("nothing ... "); 
     }
 
     //if (input == 'i')
@@ -105,7 +110,7 @@ void loop() {
     
     if (radio.ACK_REQUESTED)
     {
-      byte theNodeID = radio.SENDERID;
+      //byte theNodeID = radio.SENDERID;
       radio.sendACK();
       Serial.print("[ACK-sent]");
     }
