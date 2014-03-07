@@ -67,8 +67,6 @@ void loop() {
   //process any serial input
   inputLen = readSerialLine(input, &nodeId);
   
-  Serial.print(GARAGENODE
-      
   if (inputLen >= 6)
   {
     if (input[0]=='G' && input[1]=='R' && input[2]=='G' && input[3]=='O' && input[4]=='P' && input[5]=='N')
@@ -88,17 +86,10 @@ void loop() {
     if (input[0]=='G' && input[1]=='R' && input[2]=='G' && input[3]=='S' && input[4]=='T' && input[5]=='S')
     {
       Serial.print("STS ... ");
-      if (radio.sendWithRetry(node_id, "STS", 3))
+      if (radio.sendWithRetry(nodeId, "STS", 3))
         Serial.println("ok ... ");
-      else Serial.println("nothing ... "); 
+      else Serial.println("nothing ... ");
     }
-
-    //if (input == 'i')
-    //{
-    //  Serial.print("DeviceID: ");
-    //  word jedecid = flash.readDeviceId();
-    //  Serial.println(jedecid, HEX);
-    //}
   }
 
   if (radio.receiveDone())
@@ -110,16 +101,15 @@ void loop() {
     
     if (radio.ACK_REQUESTED)
     {
-      //byte theNodeID = radio.SENDERID;
       radio.sendACK();
       Serial.print("[ACK-sent]");
     }
     Serial.println();
-    Blink(LED,3);
+    blink(LED,3);
   }
 }
 
-void Blink(byte PIN, int DELAY_MS)
+void blink(byte PIN, int DELAY_MS)
 {
   pinMode(PIN, OUTPUT);
   digitalWrite(PIN,HIGH);
